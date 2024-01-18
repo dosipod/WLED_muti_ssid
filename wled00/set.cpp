@@ -19,9 +19,19 @@ void handleSettingsSet(AsyncWebServerRequest *request, byte subPage)
   //WIFI SETTINGS
   if (subPage == SUBPAGE_WIFI)
   {
-    strlcpy(clientSSID,request->arg(F("CS")).c_str(), 33);
+    char tmp[4];
+    byte i;
+    for (i = 0; i < WLED_MAX_SAVED_NETWORKS; i++) {
+      sprintf_P(tmp, PSTR("CS%d"), i);
+      if (request->arg(tmp).isEmpty()) break;
+      strlcpy(clientNetsSSID[i], request->arg(tmp).c_str(), 33);
 
-    if (!isAsterisksOnly(request->arg(F("CP")).c_str(), 65)) strlcpy(clientPass, request->arg(F("CP")).c_str(), 65);
+      sprintf_P(tmp, PSTR("CP%d"), i);
+      if (!isAsterisksOnly(request->arg(tmp).c_str(), 65)) {
+        strlcpy(clientNetsPass[i], request->arg(tmp).c_str(), 65);
+      }
+    }
+    clientSavedNets = i;
 
     strlcpy(cmDNS, request->arg(F("CM")).c_str(), 33);
 
