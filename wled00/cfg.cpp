@@ -57,7 +57,7 @@ bool deserializeConfig(JsonObject doc, bool fromFS) {
       //If it is present however, we will use it
       sprintf_P(tmp, PSTR("psk%d"), i);
       if (nw_ins_0.containsKey(tmp)) {
-        getStringFromJson(clientNetsPass[i], nw_ins_0["psk"], 65);
+        getStringFromJson(clientNetsPass[i], nw_ins_0[tmp], 65);
       }
     }
     clientSavedNets = i;
