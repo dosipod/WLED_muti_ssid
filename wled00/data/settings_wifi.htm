@@ -152,7 +152,7 @@
 						oE.setAttribute("id", `CS${o - 1}`);
 						oE.setAttribute("name", `CS${o - 1}`);
 					}
-					oE = gId(`CP${iti}`);
+					oE = gId(`CP${o}`);
 					if (oE) {
 						oE.setAttribute("id", `CP${o - 1}`);
 						oE.setAttribute("name", `CP${o - 1}`);
@@ -232,6 +232,33 @@
 			}
 			U();
 		}
+		function PreS() {
+			for (let i = 0; i < wCount; i++) {
+				let oE = gId(`CS${i}`);
+				if (!oE || !oE.value || oE.value.trim().length == 0) {
+					oE.remove();
+					if (oE) oE.remove();
+					oE = gId(`CP${i}`);
+					if (oE) oE.remove();
+					oE = gId(`CR${i}`);
+					if (oE) oE.remove();
+
+					for (let o = i + 1; o < wCount; o++) {
+						oE = gId(`CS${o}`);
+						if (oE) {
+							oE.setAttribute("id", `CS${o - 1}`);
+							oE.setAttribute("name", `CS${o - 1}`);
+						}
+						oE = gId(`CP${o}`);
+						if (oE) {
+							oE.setAttribute("id", `CP${o - 1}`);
+							oE.setAttribute("name", `CP${o - 1}`);
+						}
+					}
+					wCount--;
+				}
+			}
+		}
 		function getURL(path) {
 			return (loc ? locproto + "//" + locip : "") + path;
 		}
@@ -239,7 +266,7 @@
 	<style>@import url("style.css");</style>
 </head>
 <body onload="S()">
-	<form id="form_s" name="Sf" method="post">
+	<form id="form_s" name="Sf" method="post" onsubmit="PreS()">
 		<div class="toprow">
 		<div class="helpB"><button type="button" onclick="H()">?</button></div>
 		<button type="button" onclick="B()">Back</button><button type="submit">Save & Connect</button><hr>
